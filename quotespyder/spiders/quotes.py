@@ -10,8 +10,8 @@ class QuotesSpider(scrapy.Spider):
     def parse(self, response):
         title = response.css('title::text').extract_first()
         tags = response.css('.tag-item a::text').extract()
-        
-    yield{
-        'Title':title;
-        'Tags':tags;
-    }
+
+        yield{
+            'Title':title,
+            'Tags':tags
+        }
