@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+from quotespyder.items import QuotespyderItem
 
 
 class QuotesSpider(scrapy.Spider):
@@ -16,9 +17,13 @@ class QuotesSpider(scrapy.Spider):
             author = quote.xpath('.//*[@class="author"]/text()').extract_first()
             tags = quote.xpath('.//*[@class="tag"]/text()').extract()
 
-            yield{'Text':text,
-                  'Author':author,
-                  'Tags':tags}
+            item = QuotespyderItem()
+
+            item['text'] = text
+            item['author'] = author
+            item['tags'] = tags
+
+            yield item
 
         next_page_url = response.xpath('.//*[@class="next"]/a/@href').extract_first()
         next_page = response.urljoin(next_page_url)
